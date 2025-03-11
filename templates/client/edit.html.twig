@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Client : {{ client.Name }}{% endblock %}
+
+{% block body %}
+<style>
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #4CAF50;
+        font-weight: bold;
+    }
+
+    .form-container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-container .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-container label {
+        font-weight: bold;
+    }
+
+    .btn-primary {
+        background-color: #4CAF50;
+        border-color: #4CAF50;
+    }
+
+    .btn-primary:hover {
+        background-color: #45a049;
+        border-color: #3e8e41;
+    }
+
+    .d-flex.justify-content-between .form-group {
+        flex: 1;
+        margin: 0 10px;
+    }
+
+    .d-flex.justify-content-between .form-group:first-child {
+        margin-left: 0;
+    }
+
+    .d-flex.justify-content-between .form-group:last-child {
+        margin-right: 0;
+    }
+</style>
+
+<div class="form-container mt-5">
+    <h1>{{ client.name }}</h1>
+
+    {# Affichage automatique du formulaire avec la fonction form() #}
+    {{ form(form)}}
+    
+
+    
+    
+    
+   
+</div>
+{% endblock %}

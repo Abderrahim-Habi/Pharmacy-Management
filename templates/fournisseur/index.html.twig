@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Fournisseurs{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary">Liste des Fournisseurs</h2>
+        <a class="btn btn-outline-primary" href="{{ path('admin.fournisseur.create') }}">
+            <i class="fas fa-plus"></i> Ajouter un Fournisseur
+        </a>
+    </div>
+
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Gestion des Fournisseurs</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="fournisseursTable" class="table table-hover table-bordered">
+                    <thead class="table-primary">
+                        <tr>
+                            <th class="text-center">Nom</th>
+                            <th class="text-center">Adresse</th>
+                            <th class="text-center">Téléphone</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for forn in fournisseur %}
+                            <tr>
+                                <td class="text-center align-middle">{{ forn.name }}</td>
+                                <td class="text-center align-middle">{{ forn.adresse }}</td>
+                                <td class="text-center align-middle">{{ forn.telephone }}</td>
+                                <td class="text-center align-middle">
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <a href="{{ path('admin.fournisseur.edit', { id: forn.id }) }}" class="btn btn-outline-success btn-sm">
+                                            <i class="fas fa-edit"></i> Éditer
+                                        </a>
+                                        <form action="{{ path('admin.fournisseur.delete', { id: forn.id }) }}" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer ce fournisseur ?');">
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            <button type="submit" class="btn btn-outline-danger btn-sm">
+                                                <i class="fas fa-trash"></i> Supprimer
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

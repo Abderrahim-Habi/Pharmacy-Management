@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}📊 Rapport des Ventes{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row">
+        <!-- Carte Nombre Total de Ventes -->
+        <div class="col-md-6">
+            <div class="card stat-card shadow-lg border-0 rounded-4 p-4 text-center">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-uppercase text-secondary">🛒 Total des Ventes</h5>
+                    <p class="display-3 fw-bold text-primary counter">{{ totalVentes }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Carte Revenus Totaux -->
+        <div class="col-md-6">
+            <div class="card stat-card shadow-lg border-0 rounded-4 p-4 text-center">
+                <div class="card-body">
+                    <h5 class="card-title fw-bold text-uppercase text-secondary">💰 Revenus Totaux</h5>
+                    <p class="display-3 fw-bold text-success counter">{{ totalRevenus }} MAD</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Graphique -->
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-10">
+            <div class="card graph-card shadow-lg border-0 rounded-4">
+                <div class="card-header bg-gradient-primary text-white text-center">
+                    <h4 class="fw-bold mb-0">📊 Statistiques des Ventes et Revenus</h4>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted text-center">
+                        Visualisation de l'évolution des ventes et des prix des médicaments.
+                    </p>
+                    <div class="chart-container" style="position: relative; height:50vh; width:100%">
+                        {{ render_chart(chart) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Effet Glassmorphism pour les cartes */
+.stat-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Effet dégradé pour le header du graphique */
+.graph-card .card-header {
+    background: linear-gradient(135deg, #007bff, #6610f2);
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+/* Animation des nombres */
+.counter {
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+</style>
+{% endblock %}

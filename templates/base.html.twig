@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} {% endblock %}</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome (Pour les icônes) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    {# <link rel="icon" href="{{ asset('medicament/image/Screenshot_1.png') }}" type="image/png"> #}
+    <link rel="icon" href="{{ asset('medicament/image/logo-pharmacie.webp') }}" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <style>
+        /* Sidebar */
+        .sidebar {
+            height: 100vh;
+            width: 250px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: #0056b3;
+            color: #fff;
+            padding: 15px 0;
+        }
+
+        .sidebar a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            display: block;
+        }
+
+        .sidebar a:hover, .sidebar a.active {
+            background-color: #007bff;
+            border-radius: 5px;
+        }
+
+        .sidebar .menu-title {
+            padding-left: 20px;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        /* Main Content */
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            min-height: 100vh;
+        }
+
+        /* Table Actions */
+        .btn-action {
+            font-size: 0.9rem;
+            padding: 3px 10px;
+        }
+
+        .btn-action i {
+            margin-right: 5px;
+        }
+    </style>
+    {% block javascripts %}
+        {% block importmap %}{{ importmap('app') }}{% endblock %}
+    {% endblock %}
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        {# <div class="menu-title">CAYOR</div> #}
+        <div class="menu-title">Pharmacie</div>
+        {# <a href="#" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a> #}
+        <a class="{{app.current_route starts with 'admin.category.'?'active':''}}" href="{{path('admin.category.index')}}"><i class="fas fa-list"></i> Categories</a>
+        <a class="{{app.current_route starts with 'admin.medicaments.'?'active':''}}" href="{{path('admin.medicaments.index')}}"><i class="fas fa-box"></i> Produits</a>
+        {# <a href="#"><i class="fas fa-shopping-cart"></i> Achats</a> #}
+        <a class="{{app.current_route starts with 'admin.clients.'?'active':''}}" href="{{path('admin.clients.index')}}"><i class="fas fa-users"></i> Clients</a>
+        <a class="{{app.current_route starts with 'admin.commande.'?'active':''}}" href="{{path('admin.commande.index')}}"><i class="fas fa-chart-line"></i> Ventes</a>
+        {# <a href="#"><i class="fas fa-warehouse"></i> Stocks</a> #}
+        <a class="{{app.current_route starts with 'admin.fournisseur.'?'active':''}}" href="{{path('admin.fournisseur.index')}}"><i class="fas fa-handshake"></i> Fournisseurs</a>
+        <a class="{{app.current_route starts with 'admin.rapport.'?'active':''}}" href="{{path('admin.rapport.index')}}"><i class="fas fa-file-alt"></i> Rapports</a>
+        {#<a href="#"><i class="fas fa-user-shield"></i> Contrôle d'Accès</a>
+        <a href="#"><i class="fas fa-user"></i> Utilisateurs</a>
+        <a href="#"><i class="fas fa-cogs"></i> Profils</a> #}
+        {# <a href="#"><i class="fas fa-exclamation-triangle"></i>Warning</a> #}
+    </div>
+     <div class="content">
+            <div class="container my-5">
+                {% include 'partiales/flash.html.twig' %}
+                {% block body %}
+                {% endblock %}
+            </div>
+        </div>
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Produits{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary">Liste des Produits</h2>
+        <a class="btn btn-outline-primary" href="{{ path('admin.medicaments.create') }}">
+            <i class="fas fa-plus"></i> Ajouter un Produit
+        </a>
+    </div>
+
+    <!-- Filtrage par catégorie dans la zone de gestion des produits -->
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Gestion des Produits</h5>
+            <form action="{{ path('admin.medicaments.index') }}" method="get" class="d-flex align-items-center">
+                <select name="category" class="form-control form-control-sm" style="max-width: 250px;">
+                    <option value="">Toutes les catégories</option>
+                    {% for cat in category %}
+                        <option value="{{ cat.id }}" {% if cat.id == app.request.get('category') %}selected{% endif %}>
+                            {{ cat.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="btn btn-outline-light btn-sm ms-2">
+                    <i class="fas fa-filter"></i> Filtrer
+                </button>
+            </form>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="produitsTable" class="table table-hover table-bordered">
+                    <thead class="table-primary">
+                        <tr>
+                            <th class="text-center">Image</th>
+                            <th class="text-center">Nom</th>
+                            <th class="text-center">Catégorie</th>
+                            <th class="text-center">Prix</th>
+                            <th class="text-center">Quantité</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for med in medicaments %}
+                            <tr>
+                                <td class="text-center align-middle">
+                                    {% if med.image %}
+                                        <img src="{{ asset('medicament/image/' ~ med.image) }}" alt="{{ med.name }}" class="img-thumbnail" style="max-width: 80px;">
+                                    {% else %}
+                                        <span class="text-muted">Pas d'image</span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-center align-middle">{{ med.name }}</td>
+                                <td class="text-center align-middle">{{ med.category.name | default('Non catégorisé') }}</td>
+                                <td class="text-center align-middle">{{ med.Price | number_format(2, ',', ' ') }} dh</td>
+                                <td class="text-center align-middle">{{ med.quantity }}</td>
+                                <td class="text-center align-middle">
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <a href="{{ path('admin.medicaments.edit', { id: med.id }) }}" class="btn btn-outline-success btn-sm">
+                                            <i class="fas fa-edit"></i> Éditer
+                                        </a>
+                                        <form action="{{ path('admin.medicaments.delete', { id: med.id }) }}" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer ce produit ?');">
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            <button type="submit" class="btn btn-outline-danger btn-sm">
+                                                <i class="fas fa-trash"></i> Supprimer
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

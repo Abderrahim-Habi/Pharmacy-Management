@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Commandes{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary">Liste des Commandes</h2>
+        <a class="btn btn-outline-primary" href="{{ path('admin.commande.create') }}">
+            <i class="fas fa-plus"></i> Ajouter une Commande
+        </a>
+    </div>
+
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Gestion des Commandes</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="commandesTable" class="table table-hover table-bordered">
+                    <thead class="table-primary">
+                        <tr>
+                            <th class="text-center">Client</th>
+                            <th class="text-center">Date</th>
+                            <th class="text-center">Médicaments</th>
+                            <th class="text-center">Prix Unitaire</th>
+                            <th class="text-center">Montant Total</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for commande in commandes %}
+                            <tr>
+                                <td class="text-center align-middle">{{ commande.Clients.name }}</td>
+                                <td class="text-center align-middle">{{ commande.date|date('d/m/Y H:i') }}</td>
+                                <td class="text-center align-middle">
+                                    {% for medicament in commande.medicamentsInfo %}
+                                        {{ medicament.name }}{% if not loop.last %}, {% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td class="text-center align-middle">
+                                    {% for medicament in commande.medicamentsInfo %}
+                                        {{ medicament.price }} DH{% if not loop.last %}, {% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td class="text-center align-middle">{{ commande.montantTotal }} DH</td>
+                                <td class="text-center align-middle">
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <form action="{{ path('admin.commande.delete', { id: commande.id }) }}" method="post" onsubmit="return confirm('Voulez-vous vraiment supprimer cette commande ?');">
+                                            <input type="hidden" name="_method" value="DELETE">
+                                            <button type="submit" class="btn btn-outline-danger btn-sm">
+                                                <i class="fas fa-trash"></i> Supprimer
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
