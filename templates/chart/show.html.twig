@@ -4,6 +4,20 @@
 
 {% block body %}
     <div class="container mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <a href="{{ path('admin.rapport.index') }}" class="btn btn-outline-secondary btn-sm">
+                    <i class="fas fa-arrow-left"></i> Retour
+                </a>
+            </div>
+            {% if name is defined and name %}
+                <h4 class="mb-0 ms-auto client-name">{{ name }}</h4>
+            {% else %}
+                <h4 class="mb-0">Rapport des Ventes</h4>
+            {% endif %}
+            <div></div>
+        </div>
+
         <div class="row mb-4">
             <div class="col-md-6">
                 <div class="card elegant-card">
@@ -26,36 +40,6 @@
                         </div>
                         <p class="display-4 fw-bold text-success">{{ totalRevenus }} MAD</p>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card elegant-card mb-4">
-            <div class="card-body">
-                <h4 class="card-title mb-4">Liste des Clients</h4>
-                <div class="table-responsive">
-                    <table id="clientsTable" class="table table-hover">
-                        <thead class="bg-light">
-                            <tr>
-                                <th class="text-center">Nom</th>
-                                <th class="text-center">Téléphone</th>
-                                <th class="text-center">Détails</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for client in clients %}
-                                <tr>
-                                    <td class="text-center align-middle">{{ client.name }}</td>
-                                    <td class="text-center align-middle">{{ client.telephone }}</td>
-                                    <td class="text-center align-middle">
-                                        <a href="{{ path('admin.rapport.show', { 'id': client.id }) }}" class="btn btn-sm btn-outline-primary">
-                                            <i class="fas fa-eye"></i> Statistiques
-                                        </a>
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </div>
@@ -104,6 +88,15 @@
 
         .table th, .table td {
             vertical-align: middle;
+        }
+        .client-name {
+        font-size: 1.5rem; /* Taille de police plus grande */
+        font-weight: 600; /* Gras */
+        color: #333; /* Couleur de texte plus sombre */
+        padding: 0.5rem 1rem; /* Ajout d'un peu de padding pour l'espace */
+        border-radius: 5px; /* Bords arrondis */
+        background-color: #f8f9fa; /* Fond légèrement grisé */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre légère */
         }
     </style>
 {% endblock %}

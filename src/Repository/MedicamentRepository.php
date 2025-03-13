@@ -4,7 +4,9 @@ namespace App\Repository;
 
 use App\Entity\Medicament;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @extends ServiceEntityRepository<Medicament>
@@ -47,5 +49,25 @@ class MedicamentRepository extends ServiceEntityRepository
                 ->setParameter('category', $categoryId)
                 ->getQuery()
                 ->getResult();
+        }
+        public function paginateMedicament(int $page,int $limit,$categoryId):Paginator{
+            if($categoryId == null){
+                return new Paginator($this->createQueryBuilder("m")
+                    ->setFirstResult(($page - 1) * $limit)
+                    ->setMaxResults($limit)
+                    ->getQuery()
+                    ->setHint(Paginator::HINT_ENABLE_DISTINCT, false),
+                    false
+                );
+            }
+            return new Paginator($this->createQueryBuilder("m")
+                    ->setFirstResult(($page - 1) * $limit)
+                    ->setMaxResults($limit)
+                    ->andWhere('m.Category = :category')
+                    ->setParameter('category', $categoryId) // Assuming category 1 is the medicament category
+                    ->getQuery()
+                    ->setHint(Paginator::HINT_ENABLE_DISTINCT, false),
+                    false
+                );
         }
 }

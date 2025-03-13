@@ -73,6 +73,15 @@
                         {% endfor %}
                     </tbody>
                 </table>
+                <div class="d-flex mb-3 justify-content-center gap-2">
+                    {% for page in pages %}
+                        {% if page == currentPage %}
+                        <a href="{{path('admin.medicaments.index', { page:page ,category:app.request.get('category')}) }}" class="btn btn-success btn-sm" >{{page}}</a>
+                        {% else %}
+                        <a href="{{ path('admin.medicaments.index', { page: page,category:app.request.get('category')}) }}" class="btn btn-outline-success btn-sm">{{ page }}</a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>

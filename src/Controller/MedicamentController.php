@@ -22,15 +22,19 @@ class MedicamentController extends AbstractController
     #[Route('/', name: 'index')]
     public function index(Request $request,MedicamentRepository $repository,CategoryRepository $category,EntityManagerInterface $em): Response
     {
-        $medicaments = $repository->findAll();
-        $cat = $category->findAll();
+        $page = $request->query->get('page', 1); // On récupère le numéro de page depuis l'URL, par défaut on prend la page 1.
+        $limit = 4; // Nombre de produits par page. 5 par défaut.
         $categoryid = $request->query->get('category');
-        if ($categoryid) {
-            $medicaments = $repository->findByCategory($categoryid);
-        }
+        $medicaments = $repository->paginateMedicament($page,$limit,$categoryid);
+        $maxpages = ceil($medicaments->count()/$limit); // On récupère le numéro de page 
+        $pages = range(1,$maxpages);
+        $cat = $category->findAll();
+        
         return $this->render('medicament/index.html.twig', [
             'medicaments' => $medicaments,
-            'category'=>$cat
+            'category'=>$cat,
+            'pages'=>$pages,
+            'currentPage'=>$page
         ]);
     }
     
